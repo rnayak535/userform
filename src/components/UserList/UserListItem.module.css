@@ -1,0 +1,6 @@
+.li{
+    border: 2px solid grey;
+    padding: 6px 10px;
+    margin: 5px 0;
+    max-width: 40rem;
+}
