@@ -1,17 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Adduser from './components/Users/AddUser';
-import UserList from './components/UserList/UserList';
+import UserList from './components/Users/UserList';
 
 const App = () => {
-
+  const [userList, setUserList] = useState([]);
   const userAddedData = (addedData) => {
-    console.log(addedData);
+    setUserList(prevList => {
+      return [...prevList, addedData];
+    });
   }
 
   return (
     <div>
       <Adduser onUserSubmit={userAddedData} />
-      <UserList />
+      <UserList users={userList} />
     </div>
   );
 }

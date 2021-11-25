@@ -15,7 +15,14 @@ const Adduser = (props) => {
   };
   const addUserSubmitHandler = (event) => {
     event.preventDefault();
+    if(enteredName.trim().length === 0 || enteredAge.trim().length === 0){
+      return;
+    }
+    if(+enteredAge < 1){
+      return;
+    }
     const userObj = {
+      id: Math.random().toString(),
       name: enteredName,
       age: enteredAge,
     };
