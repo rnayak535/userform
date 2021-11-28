@@ -14,12 +14,26 @@ const Adduser = (props) => {
   const userAgeHandler = (event) => {
     setUserAge(event.target.value);
   };
+  const [showErrorModal, setErrorModal] = useState();
+
+  const errorHandler = () => {
+    setErrorModal(null);
+  }
+
   const addUserSubmitHandler = (event) => {
     event.preventDefault();
-    if(enteredName.trim().length === 0 || enteredAge.trim().length === 0){
+    if (enteredName.trim().length === 0 || enteredAge.trim().length === 0) {
+      setErrorModal({
+        title: 'Invalid value',
+        message: 'Name and age fields can not be empty.'
+      });
       return;
     }
-    if(+enteredAge < 1){
+    if (+enteredAge < 1) {
+      setErrorModal({
+        title: 'Invalid age',
+        message: 'Age should be greater >= 1.'
+      });
       return;
     }
     const userObj = {
@@ -28,13 +42,20 @@ const Adduser = (props) => {
       age: enteredAge,
     };
     props.onUserSubmit(userObj);
-    setUserName('');
-    setUserAge('');
+    setUserName("");
+    setUserAge("");
   };
 
   return (
     <div>
-      <ErrorModal title="Error" content="Something went wrong"/>
+      {showErrorModal && (
+        <ErrorModal
+          title={showErrorModal.title}
+          content={showErrorModal.message}
+          onOkay={errorHandler}
+        />
+      )}
+      {/* <ErrorModal title="Error" content="Something went wrong"/> */}
       <Card className={classes.input}>
         <form onSubmit={addUserSubmitHandler}>
           <label htmlFor="username">Name: </label>
@@ -50,7 +71,6 @@ const Adduser = (props) => {
             id="age"
             type="number"
             onChange={userAgeHandler}
-            min="1"
             name="age"
             value={enteredAge}
           />
